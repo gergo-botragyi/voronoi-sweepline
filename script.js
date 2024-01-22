@@ -27,8 +27,8 @@ function update(){
         started = true;
         sweepline.update();
         for (const point of points) {
-            if(point.x <= sweepline.x){
-                let parabola = new Parabola(point, sweepline.x-point.x)
+            if(sweepline.y-point.y > 1){
+                let parabola = new Parabola(point, (sweepline.y-point.y)*2)                
             }
         }
         globalID = requestAnimationFrame(update);
