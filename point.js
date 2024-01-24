@@ -1,7 +1,8 @@
 class Point{
-    constructor(x, y){
+    constructor(x, y, i){
         this.x = x;
         this.y = y;
+        this.i = i;
         this.svgo = this.createSvg();
     }
 

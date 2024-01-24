@@ -19,7 +19,6 @@ class SweepLine{
             this.y += 2;
             this.svgo.setAttribute('y1', this.y);
             this.svgo.setAttribute('y2', this.y);
-            console.log("line updated")
         }
     }
 }
