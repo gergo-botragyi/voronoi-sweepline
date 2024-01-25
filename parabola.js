@@ -2,17 +2,20 @@ class Parabola{
     constructor(f, p){
         this.f = f;
         this.p = p;
+        this.a;
+        this.b;
+        this.c;
         this.x1;
         this.x2;
         this.svgo = this.draw();
     }
 
     calcPoints(){
-        let a = -1 / (2*this.p)
-        let b = -1*a*2*this.f.x;
-        let c = a*(this.f.x**2)+this.f.y
-        this.x1 = (-b+Math.sqrt(b**2 - 4*a*c))/(2*a);
-        this.x2 = (-b-Math.sqrt(b**2 - 4*a*c))/(2*a);
+        this.a = -1 / (2*this.p)
+        this.b = -1*this.a*2*this.f.x;
+        this.c = this.a*(this.f.x**2)+this.f.y
+        this.x1 = (-this.b+Math.sqrt(this.b**2 - 4*this.a*this.c))/(2*this.a);
+        this.x2 = (-this.b-Math.sqrt(this.b**2 - 4*this.a*this.c))/(2*this.a);
     }
 
     draw(){
@@ -25,8 +28,8 @@ class Parabola{
     }
 
     update(){
-        this.p = (sweepline.y-this.f.y)*2;
+        this.p = sweepline.y-this.f.y;
         this.calcPoints();
-        this.svgo.setAttribute('d', `M ${this.x1} 0 Q ${this.f.x} ${this.f.y*2+this.p/2} ${this.x2} 0`);
+        this.svgo.setAttribute('d', `M ${this.x1} 0 Q ${this.f.x} ${this.f.y*2+this.p} ${this.x2} 0`);
     }
 }

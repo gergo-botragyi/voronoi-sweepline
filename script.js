@@ -5,7 +5,8 @@ let globalID;
 
 let started = false;
 let points = [];
-let parabolaMap = new Map();
+let parabolaIndexes = [];
+let parabolaCon = [];
 let i = 0;
 let sweepline = new SweepLine(0);
 svgcanvas.appendChild(sweepline.svgo);
@@ -30,12 +31,46 @@ function update(){
         sweepline.update();
         for (const point of points) {
             if(sweepline.y-point.y > 1){
-                if(!parabolaMap.has(point.i)){
+                if(!parabolaIndexes.includes(point.i)){
                     let parabola = new Parabola(point, (sweepline.y-point.y)*2);
-                    parabolaMap.set(point.i, parabola);
+                    parabolaIndexes.push(point.i);
+                    parabolaCon.push(parabola);
                     svgcanvas.appendChild(parabola.svgo)
-                }else{
-                    parabolaMap.get(point.i).update();
+                }
+            }
+        }
+        for (const par of parabolaCon) {
+            par.update();
+        }
+        for (let i = 0; i < parabolaCon.length-1; i++) {            
+            for (let j = i+1; j < parabolaCon.length; j++) {
+                let a = parabolaCon[i].a-parabolaCon[j].a;
+                let b = parabolaCon[i].b-parabolaCon[j].b;
+                let c = parabolaCon[i].c-parabolaCon[j].c;
+
+                let x1 = (-b+Math.sqrt(b**2 - 4*a*c))/(2*a);
+                let y1 = (parabolaCon[i].a*(x1**2)) + (parabolaCon[i].b*x1) + parabolaCon[i].c
+
+                let x2 = (-b-Math.sqrt(b**2 - 4*a*c))/(2*a);
+                let y2 = (parabolaCon[i].a*(x2**2)) + (parabolaCon[i].b*x2) + parabolaCon[i].c
+
+                if(!isNaN(x1)){
+                    let intersection1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    intersection1.setAttribute("cx", x1);
+                    intersection1.setAttribute("cy", y1);
+                    intersection1.setAttribute("r", "2");
+                    intersection1.setAttribute("stroke", "red");
+                    intersection1.setAttribute("fill", "red");
+                    svgcanvas.appendChild(intersection1)                    
+                }
+                if(!isNaN(x2)){
+                    let intersection2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    intersection2.setAttribute("cx", x2);
+                    intersection2.setAttribute("cy", y2);
+                    intersection2.setAttribute("r", "2");
+                    intersection2.setAttribute("stroke", "red");
+                    intersection2.setAttribute("fill", "red");
+                    svgcanvas.appendChild(intersection2)
                 }
             }
         }
