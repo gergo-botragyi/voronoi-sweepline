@@ -29,18 +29,18 @@ function update(){
     if(started){
         started = true;
         sweepline.update();
+        for (const par of parabolaCon) {
+            par.update();
+        }
         for (const point of points) {
             if(sweepline.y-point.y > 1){
                 if(!parabolaIndexes.includes(point.i)){
-                    let parabola = new Parabola(point, (sweepline.y-point.y)*2);
+                    let parabola = new Parabola(point, (sweepline.y-point.y));
                     parabolaIndexes.push(point.i);
                     parabolaCon.push(parabola);
                     svgcanvas.appendChild(parabola.svgo)
                 }
             }
-        }
-        for (const par of parabolaCon) {
-            par.update();
         }
         for (let i = 0; i < parabolaCon.length-1; i++) {            
             for (let j = i+1; j < parabolaCon.length; j++) {
