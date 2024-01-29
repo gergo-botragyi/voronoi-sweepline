@@ -1,6 +1,7 @@
 class SweepLine{
     constructor(y){
         this.y = y;
+        this.ended = false;
         this.svgo = this.makeSvg();
     }
     
@@ -19,6 +20,8 @@ class SweepLine{
             this.y += 2;
             this.svgo.setAttribute('y1', this.y);
             this.svgo.setAttribute('y2', this.y);
+        }else{
+            this.ended = true;
         }
     }
 }
