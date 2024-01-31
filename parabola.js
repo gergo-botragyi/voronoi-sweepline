@@ -31,5 +31,9 @@ class Parabola{
         this.p = sweepline.y-this.f.y;
         this.calcPoints();
         this.svgo.setAttribute('d', `M ${this.x1} 0 Q ${this.f.x} ${this.f.y*2+this.p} ${this.x2} 0`);
+    }   
+
+    distancesqr(x, y){
+        return ((x-this.f.x)**2 + (y-(this.f.y))**2);
     }
 }
