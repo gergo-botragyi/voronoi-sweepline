@@ -2,11 +2,13 @@ let svgcanvas = document.getElementById("svgcanvas");
 svgcanvas.addEventListener("mousedown", placePoint, false);
 const container = svgcanvas.getBoundingClientRect();
 let globalID;
+let borders = document.getElementById("borders");
 
 let started = false;
 let points = [];
 let parabolaIndexes = [];
 let parabolaCon = [];
+let polyPoints = [];
 let i = 0;
 let sweepline = new SweepLine(0);
 svgcanvas.appendChild(sweepline.svgo);
@@ -43,38 +45,27 @@ function update(){
             }
         }
         for (let i = 0; i < parabolaCon.length-1; i++) {            
-            for (let j = i+1; j < parabolaCon.length; j++) {
-                console.log(parabolaCon[i].a+" "+parabolaCon[i].b+" "+parabolaCon[i].c)
-                console.log(parabolaCon[j].a+" "+parabolaCon[j].b+" "+parabolaCon[j].c)
+            for (let j = i+1; j < parabolaCon.length; j++) {                
                 let a = parabolaCon[i].a-parabolaCon[j].a;
                 let b = parabolaCon[i].b-parabolaCon[j].b;
-                let c = (parabolaCon[i].c-parabolaCon[i].p)-(parabolaCon[j].c-parabolaCon[j].p);
+                let c = parabolaCon[i].c-parabolaCon[j].c;
 
                 let x1 = (-b+Math.sqrt(b**2 - 4*a*c))/(2*a);
                 let y1 = (parabolaCon[i].a*(x1**2)) + (parabolaCon[i].b*x1) + parabolaCon[i].c
-                console.log(x1+" "+y1)
+                
+                if(x1 < container.width && x1>0 && y1<container.height && y1 >0){
+                    polyPoints.push([x1,y1])
+                }
 
                 let x2 = (-b-Math.sqrt(b**2 - 4*a*c))/(2*a);
                 let y2 = (parabolaCon[i].a*(x2**2)) + (parabolaCon[i].b*x2) + parabolaCon[i].c
-                console.log(x2+" "+y2)
                 
-                let intersection1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                intersection1.setAttribute("cx", x1);
-                intersection1.setAttribute("cy", y1);
-                intersection1.setAttribute("r", "2");
-                intersection1.setAttribute("stroke", "red");
-                intersection1.setAttribute("fill", "red");
-                svgcanvas.appendChild(intersection1)                    
-                
-                let intersection2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                intersection2.setAttribute("cx", x2);
-                intersection2.setAttribute("cy", y2);
-                intersection2.setAttribute("r", "2");
-                intersection2.setAttribute("stroke", "red");
-                intersection2.setAttribute("fill", "red");
-                svgcanvas.appendChild(intersection2)
+                if(x2 < container.width && x2>0 && y2<container.height && y2 >0){
+                    polyPoints.push([x2,y2])
+                }                
             }
         }
+        borders.setAttribute("points", polyPoints.map(x=>`${x[0]},${x[1]}`).join(" "))
         globalID = requestAnimationFrame(update);
     }
 }

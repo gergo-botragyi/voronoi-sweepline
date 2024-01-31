@@ -16,7 +16,7 @@ class SweepLine{
     }
 
     update(){
-        if(this.y+2<=container.height){
+        if(this.y+2<=container.height*2.5){
             this.y += 2;
             this.svgo.setAttribute('y1', this.y);
             this.svgo.setAttribute('y2', this.y);
