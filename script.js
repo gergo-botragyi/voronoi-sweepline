@@ -9,6 +9,8 @@ let points = [];
 let parabolaIndexes = [];
 let parabolaCon = [];
 let polyPoints = [];
+//let lineQueue = [];
+let first = true;
 let i = 0;
 let sweepline = new SweepLine(0);
 svgcanvas.appendChild(sweepline.svgo);
@@ -47,14 +49,16 @@ function makeParabolas(){
             if(!parabolaIndexes.includes(point.i)){
                 let parabola = new Parabola(point, (sweepline.y-point.y));
                 parabolaIndexes.push(point.i);
-                svgcanvas.appendChild(parabola.svgo)
+                svgcanvas.appendChild(parabola.svgo);
                 parabolaCon.push(parabola);
             }
         }
     }
 }
 
+let ongoing = false;
 function intersections(){
+    //first = lineQueue.lengt == 0;
     for (let i = 0; i < parabolaCon.length-1; i++) {            
         for (let j = i+1; j < parabolaCon.length; j++) {
             const par1 = parabolaCon[i];
@@ -72,6 +76,17 @@ function intersections(){
                 let d2 = par2.distancesqr(x1, y1);
 
                 if(!closerToOthers(d1, d2, i, j, x1, y1)){
+                    /*if(first){
+                        let line = new Line();
+                        line.points.push([x1, y1]);
+                        ongoing = true;
+                        svgcanvas.appendChild(line.svgo);
+                        lineQueue.push(line);
+                    }else{
+                        let firstElement = lineQueue.shift();
+                        firstElement.points.push([x1, y1]);
+                        ongoing = true;
+                    }*/
                     polyPoints.push([x1, y1]);
                 }
             }
@@ -84,6 +99,24 @@ function intersections(){
                 let d22 = par2.distancesqr(x2, y2);
 
                 if(!closerToOthers(d12, d22, i, j, x2, y2)){
+                    /*if(first){
+                        if(ongoing){
+
+                            line.points.push([x2, y2]);
+                            line.update();
+                            lineQueue.push(line);
+                        }else{
+                            let line2 = new Line();
+                            line2.points.push([x2, y2]);
+                            svgcanvas.appendChild(line2.svgo);
+                            lineQueue.push(line2)
+                        }
+                    }else{
+                        if(ongoing){
+                            firstElement.points.push([x2, y2]);
+
+                        }
+                    }*/
                     polyPoints.push([x2, y2]);
                 }
             }                
