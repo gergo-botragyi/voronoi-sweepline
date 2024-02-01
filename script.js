@@ -122,7 +122,7 @@ function closestNeighbour([x, y]){
         let currDis = distancesqr(polyPoints[i], [x,y]);
         if(currDis < minDistance){minDistance = currDis; minIndex=i;}
     }
-    return minIndex;
+    return minIndex+1;
 }
 
 function distancesqr([x1,y1], [x2, y2]){
