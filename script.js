@@ -70,6 +70,13 @@ function intersections(){
             let b = par1.b-par2.b;
             let c = par1.c-par2.c;
 
+            let index = lines.findIndex(x=>x.id==`${i}${j}`);
+            if(index != -1){
+                if(lines[index].smallerEnd && lines[index].biggerEnd){
+                    continue;
+                }
+            }
+
             let x1 = (-b-Math.sqrt(b**2 - 4*a*c))/(2*a);
             let y1 = (par1.a*(x1**2)) + (par1.b*x1) + par1.c
             
@@ -81,6 +88,14 @@ function intersections(){
                     let values = linePoints.get(`${i}${j}`) == undefined ? [] : linePoints.get(`${i}${j}`); //array
                     values.push([x1, y1])
                     linePoints.set(`${i}${j}`, values)
+                }else{
+                    if(index!=-1){
+                        lines[index].smallerEnd = true;
+                    }
+                }
+            }else{
+                if(index!=-1){
+                    lines[index].smallerEnd = true;
                 }
             }
 
@@ -95,6 +110,15 @@ function intersections(){
                     values = linePoints.get(`${i}${j}`) == undefined ? [] : linePoints.get(`${i}${j}`); //array
                     values.push([x2, y2])
                     linePoints.set(`${i}${j}`, values)
+                }
+                else{
+                    if(index!=-1){
+                        lines[index].biggerEnd = true;
+                    }
+                }
+            }else{
+                if(index!=-1){
+                    lines[index].biggerEnd = true;
                 }
             }                         
         }

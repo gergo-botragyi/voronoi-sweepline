@@ -2,6 +2,8 @@ class Line{
     constructor(id, points){
         this.id = id;
         this.points = points;
+        this.smallerEnd = false;
+        this.biggerEnd = false;
         this.svgo = this.draw();
     }
 
