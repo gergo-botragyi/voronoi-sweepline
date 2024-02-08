@@ -20,6 +20,7 @@ class SweepLine{
             this.y += 1;
             this.svgo.setAttribute('y1', this.y);
             this.svgo.setAttribute('y2', this.y);
+            this.svgo.setAttribute('x2', container.width)
         }else{
             this.ended = true;
         }

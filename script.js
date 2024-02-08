@@ -1,6 +1,6 @@
 let svgcanvas = document.getElementById("svgcanvas");
 svgcanvas.addEventListener("mousedown", placePoint, false);
-const container = svgcanvas.getBoundingClientRect();
+let container = svgcanvas.getBoundingClientRect();
 let globalID;
 let borders = document.getElementById("borders");
 
@@ -30,6 +30,7 @@ function cursorPoint(evt){
 }
 
 function update(){
+    container = svgcanvas.getBoundingClientRect();
     if(started && sweepline.ended == false){
         started = true;
         sweepline.update();
@@ -110,8 +111,7 @@ function intersections(){
                     values = linePoints.get(`${i}${j}`) == undefined ? [] : linePoints.get(`${i}${j}`); //array
                     values.push([x2, y2])
                     linePoints.set(`${i}${j}`, values)
-                }
-                else{
+                }else{
                     if(index!=-1){
                         lines[index].biggerEnd = true;
                     }
@@ -172,6 +172,14 @@ let keymap = {};
 onkeydown = onkeyup = function(e){
     keymap[e.key] = e.type == 'keydown';
     if(!started){
-        if(keymap["s"]){started = true; globalID = this.requestAnimationFrame(update);}
+        if(keymap["s"] || keymap[" "] || keymap["Enter"]){started = true; globalID = requestAnimationFrame(update);}        
     }
 };
+
+const startBtn = document.getElementById("startBtn");
+startBtn.addEventListener("click",()=>{
+    if(!started){
+        started=true;
+        globalID = requestAnimationFrame(update);
+    }
+}, false)

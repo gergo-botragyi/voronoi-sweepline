@@ -1,0 +1,12 @@
+body{
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+#startBtn{
+    position: absolute;
+    width: 5%;
+    top: 0;
+    left: 47.5%;
+}
